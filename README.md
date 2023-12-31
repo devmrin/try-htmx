@@ -2,8 +2,13 @@
 
 A simple todo app using HTMX.
 
-It's currently static, there's no db.
-Only one todo item is added / deleted.
+It's currently a static app, as there's no db.
+
+For demonstration purposes, only one todo item is -
+
+- initially fetched via GET call
+- added via POST call
+- deleted via DELETE call
 
 ## Tech
 
