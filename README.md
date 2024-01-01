@@ -1,16 +1,16 @@
 # Trying out HTMX
 
-A simple todo app using HTMX.
+A simple todo app to showcase basic capabilities of HTMX.
 
-It's currently a static app, as there's no db.
+## Getting Started
 
-For demonstration purposes, only one todo item is -
-
-- initially fetched via GET call
-- added via POST call
-- deleted via DELETE call
+| command       | description                           |
+| ------------- | ------------------------------------- |
+| `npm i`       | install all packages                  |
+| `npm run dev` | run the app on http://localhost:3000/ |
 
 ## Tech
 
-- [Express](https://expressjs.com/) as server for various routes as well as serving initial static HTML.
-- [Pico.css](https://picocss.com/) library for minimal css styling.
+- [Express](https://expressjs.com/) as server for various routes as well as serving initial static HTML
+- [SQLite3](https://www.sqlite.org/index.html) as database
+- [Pico.css](https://picocss.com/) as library for minimal css defaults

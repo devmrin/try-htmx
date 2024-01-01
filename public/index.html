@@ -11,12 +11,9 @@
     <div class="container">
         <h1>Hello HTMX</h1>
         <h2>Implementing a simple to-do app in htmx</h2>
-        <!-- <button hx-post="/click" hx-swap="outerHTML">
-            Click Me
-          </button> -->
 
         <form hx-post="/add" hx-target="#todo-list">
-            <input type="text" name="todo" placeholder="Add a todo">
+            <input type="text" name="task" placeholder="Add a todo" required>
             <button type="submit">Add</button>
         </form>
 

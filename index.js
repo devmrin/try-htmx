@@ -1,58 +1,74 @@
-const express = require('express');
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const db = require("./database.js");
+
 const app = express();
 const port = 3000;
 
-
-const todos = [
-    { id: 1, value: 'Buy groceries' },
-    { id: 2, value: 'Finish homework' },
-    { id: 3, value: 'Walk the dog' },
-    { id: 4, value: 'Call mom' },
-    { id: 5, value: 'Go for a run' }
-];
-
-const COUNT = 4;
-
-function getTodosHTML(count = COUNT) {
-    return `<ul>
-    ${todos.slice(0, count).map(todo => `
+function getTodosHTML(todos) {
+  return `<ul>
+    ${todos
+      .map(
+        (todo) => `
         <li hx-get="/todos" hx-target="#todo-list">
             <div class="one-line">
                 <span hx-swap="outerHTML">${todo.value}</span>
                 <button role="button" class="btn-delete" hx-delete="/todos/${todo.id}" hx-target="#todo-list">Delete</button>
             </div>
         </li>
-    `).join('')}
+    `
+      )
+      .join("")}
     <ul>`;
 }
 
+function getTodosFromDB(req, res) {
+  db.all("SELECT * FROM todo", (error, rows) => {
+    if (error) {
+      console.error("Error retrieving todos from database:", error);
+      res.status(500).send("Internal Server Error");
+    } else {
+      const todos = rows.map((row) => ({ id: row.id, value: row.task }));
+      res.status(200).send(getTodosHTML(todos));
+    }
+  });
+}
+
 // Serve static files from the "public" folder
-app.use(express.static('public'));
-
+app.use(express.static("public"));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/click', (req, res) => {
-    res.send('Hello, World!');
+app.post("/add", (req, res) => {
+  const task = req.body.task;
+  var insertTodo = "INSERT INTO todo (id, task) VALUES (?,?)";
+  db.run(insertTodo, [Date.now(), task], (error) => {
+    if (error) {
+      console.error("Error inserting new todo:", error);
+      res.status(500).send("Internal Server Error");
+    } else {
+      getTodosFromDB(req, res);
+    }
+  });
 });
 
-app.post('/add', (req, res) => {
-    res.send(getTodosHTML(COUNT+1));
+app.get("/todos", (req, res) => {
+  getTodosFromDB(req, res);
 });
 
-app.get('/todos', (req, res) => {
-    res.send(getTodosHTML(COUNT));
+app.delete("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  db.run("DELETE FROM todo WHERE id = ?", id, (error) => {
+    if (error) {
+      console.error("Error deleting todo:", error);
+      res.status(500).send("Internal Server Error");
+    } else {
+      getTodosFromDB(req, res);
+    }
+  });
 });
-
-app.delete('/todos/:id', (req, res) => {
-    res.send(getTodosHTML(COUNT-1));
-});
-
-
-
-
-
-
 
 app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server listening at http://localhost:${port}`);
 });
