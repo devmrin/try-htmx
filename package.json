@@ -1,17 +1,24 @@
 {
   "name": "try-htmx",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Modern HTMX todo app with Vite",
+  "type": "module",
+  "main": "server/index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "node server/index.js"
   },
-  "keywords": [],
+  "keywords": ["htmx", "vite", "express", "sqlite"],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "sqlite3": "^5.1.7-rc.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vite-plugin-express": "^1.0.0"
   }
 }

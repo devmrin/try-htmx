@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello HTMX</title>
+    <title>Modern HTMX Todo App</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Hello HTMX</h1>
-        <h2>A simple to-do app</h2>
+        <h1>Modern HTMX Todo App</h1>
+        <h2>A simple to-do app with Vite</h2>
 
-        <form hx-post="/add" hx-target="#todo-list">
+        <form hx-post="/api/add" hx-target="#todo-list">
             <input type="text" name="task" placeholder="Add a todo" required>
             <button type="submit">Add</button>
         </form>
 
         <ul id="todo-list">
-            <li hx-get="/todos" hx-target="#todo-list" hx-trigger="load">
+            <li hx-get="/api/todos" hx-target="#todo-list" hx-trigger="load">
                 
             </li>
         </ul>
 
     </div>
 
-    <!-- scripts below -->
-      <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <!-- Vite will inject additional scripts here -->
+    <script type="module" src="/src/main.js"></script>
 </body>
 </html>
